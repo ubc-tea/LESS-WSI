@@ -1,0 +1,47 @@
+True
+False
+Number of training data: 57
+Number of test data: 73
+Length of train loader 57
+Length of validation loader 73
+Creating model: crossvit_base_224
+number of params: 104464516
+Start training, currnet max acc is 0.00
+Epoch: [0]  [ 0/57]  eta: 0:00:29  lr: 0.000001  loss: 0.5625 (0.5625)  time: 0.5171  data: 0.0017  max mem: 1022
+Epoch: [0]  [50/57]  eta: 0:00:00  lr: 0.000001  loss: 0.5098 (0.5661)  time: 0.0423  data: 0.0008  max mem: 1911
+Epoch: [0]  [56/57]  eta: 0:00:00  lr: 0.000001  loss: 0.2107 (0.5167)  time: 0.0428  data: 0.0008  max mem: 1911
+Epoch: [0] Total time: 0:00:02 (0.0509 s / it)
+Training Acc: 0.8245614171028137
+Averaged stats: lr: 0.000001  loss: 0.2107 (0.5167)
+Test:  [ 0/73]  eta: 0:00:00    time: 0.0110  data: 0.0011  max mem: 1911
+Test:  [50/73]  eta: 0:00:00    time: 0.0087  data: 0.0006  max mem: 1911
+Test:  [72/73]  eta: 0:00:00    time: 0.0086  data: 0.0006  max mem: 1911
+Test: Total time: 0:00:00 (0.0087 s / it)
+false list: b: ['BD22-15324', 'BD22-15799'] a: ['BD22-19387', 'BD22-19389', 'BD22-19485', 'BD22-19509', 'BD22-19512', 'BD22-19841', 'BD22-20487', 'BD22-20541', 'BD22-20624', 'BD22-20697', 'BD22-21189', 'BD22-21381', 'BD22-21605', 'BD22-21652', 'BD22-21875', 'BD22-21883', 'BD22-22466', 'BD22-22637', 'BD22-22762', 'BD23-2305', 'BD23-3548', 'BD23-5863'] s: [] c: []
+Confusion Matrix:
+[[17 24]
+ [ 0 32]]
+* Acc@1 67.123 Acc@5 100.000 loss 0.728
+Accuracy of the network on the 73 test images: 67.12%
+Max accuracy: 67.12%
+Epoch: [1]  [ 0/57]  eta: 0:00:02  lr: 0.000001  loss: 2.4785 (2.4785)  time: 0.0452  data: 0.0009  max mem: 1911
+Epoch: [1]  [50/57]  eta: 0:00:00  lr: 0.000001  loss: 0.2063 (0.5047)  time: 0.0419  data: 0.0007  max mem: 1911
+Epoch: [1]  [56/57]  eta: 0:00:00  lr: 0.000001  loss: 0.1519 (0.4653)  time: 0.0421  data: 0.0007  max mem: 1911
+Epoch: [1] Total time: 0:00:02 (0.0423 s / it)
+Training Acc: 0.8421052694320679
+Averaged stats: lr: 0.000001  loss: 0.1519 (0.4653)
+Traceback (most recent call last):
+  File "main.py", line 426, in <module>
+    main(args,args.nth_fold)
+  File "main.py", line 379, in main
+    test_stats,AUC,Recall,Precision ,F1,Sensitivity,Specificity,Evaluation  = evaluate(data_loader_val1,data_loader_val2, model, device, num_tasks, args,distributed=False, amp=args.amp)
+  File "/data/miniconda3/envs/bdcell/lib/python3.8/site-packages/torch/autograd/grad_mode.py", line 27, in decorate_context
+    return func(*args, **kwargs)
+  File "/bigdata/projects/beidi/git/LESS/1-WSI_aggregation/engine.py", line 125, in evaluate
+    output = model(images1,images2)
+  File "/data/miniconda3/envs/bdcell/lib/python3.8/site-packages/torch/cuda/amp/autocast_mode.py", line 36, in __exit__
+    return super().__exit__(exc_type, exc_val, exc_tb)
+  File "/data/miniconda3/envs/bdcell/lib/python3.8/site-packages/torch/amp/autocast_mode.py", line 271, in __exit__
+    torch.clear_autocast_cache()
+KeyboardInterrupt
+Test:  [ 0/73]  eta: 0:00:00    time: 0.0095  data: 0.0011  max mem: 1911

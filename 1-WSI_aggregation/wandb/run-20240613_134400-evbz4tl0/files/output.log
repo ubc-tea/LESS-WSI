@@ -1,0 +1,39 @@
+True
+False
+Number of training data: 57
+Number of test data: 73
+Length of train loader 57
+Length of validation loader 73
+Creating model: crossvit_base_224
+number of params: 104464516
+Start training, currnet max acc is 0.00
+Epoch: [0]  [ 0/57]  eta: 0:00:29  lr: 0.000001  loss: 0.5625 (0.5625)  time: 0.5123  data: 0.0018  max mem: 1022
+Epoch: [0]  [50/57]  eta: 0:00:00  lr: 0.000001  loss: 0.5098 (0.5661)  time: 0.0436  data: 0.0009  max mem: 1911
+Epoch: [0]  [56/57]  eta: 0:00:00  lr: 0.000001  loss: 0.2107 (0.5167)  time: 0.0435  data: 0.0008  max mem: 1911
+Epoch: [0] Total time: 0:00:02 (0.0522 s / it)
+Training Acc: 0.8245614171028137
+Averaged stats: lr: 0.000001  loss: 0.2107 (0.5167)
+Test:  [ 0/73]  eta: 0:00:00    time: 0.0095  data: 0.0010  max mem: 1911
+Test:  [50/73]  eta: 0:00:00    time: 0.0086  data: 0.0006  max mem: 1911
+Test:  [72/73]  eta: 0:00:00    time: 0.0086  data: 0.0006  max mem: 1911
+Test: Total time: 0:00:00 (0.0086 s / it)
+false list: b: ['BD22-15324', 'BD22-15799'] a: ['BD22-19387', 'BD22-19389', 'BD22-19485', 'BD22-19509', 'BD22-19512', 'BD22-19841', 'BD22-20487', 'BD22-20541', 'BD22-20624', 'BD22-20697', 'BD22-21189', 'BD22-21381', 'BD22-21605', 'BD22-21652', 'BD22-21875', 'BD22-21883', 'BD22-22466', 'BD22-22637', 'BD22-22762', 'BD23-2305', 'BD23-3548', 'BD23-5863'] s: [] c: []
+Confusion Matrix:
+[[17 24]
+ [ 0 32]]
+* Acc@1 67.123 Acc@5 100.000 loss 0.728
+Accuracy of the network on the 73 test images: 67.12%
+Max accuracy: 67.12%
+Training time 0:00:03
+Traceback (most recent call last):
+  File "main.py", line 426, in <module>
+    main(args,args.nth_fold)
+  File "main.py", line 415, in main
+    torch.save(model.state_dict(), './save/model/'+str(args.nth_fold)+'_'+str(args.seed)+'_'+str(args.epochs)+'.pth')
+  File "/data/miniconda3/envs/bdcell/lib/python3.8/site-packages/torch/serialization.py", line 422, in save
+    with _open_zipfile_writer(f) as opened_zipfile:
+  File "/data/miniconda3/envs/bdcell/lib/python3.8/site-packages/torch/serialization.py", line 309, in _open_zipfile_writer
+    return container(name_or_buffer)
+  File "/data/miniconda3/envs/bdcell/lib/python3.8/site-packages/torch/serialization.py", line 287, in __init__
+    super(_open_zipfile_writer_file, self).__init__(torch._C.PyTorchFileWriter(str(name)))
+RuntimeError: Parent directory ./save/model does not exist.

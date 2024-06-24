@@ -1,0 +1,236 @@
+wandb_version: 1
+
+_wandb:
+  desc: null
+  value:
+    python_version: 3.8.16
+    cli_version: 0.15.7
+    framework: torch
+    is_jupyter_run: false
+    is_kaggle_kernel: true
+    start_time: 1718311440.387265
+    t:
+      1:
+      - 1
+      - 5
+      - 41
+      - 49
+      - 51
+      - 53
+      - 55
+      - 63
+      2:
+      - 1
+      - 5
+      - 41
+      - 49
+      - 51
+      - 53
+      - 55
+      - 63
+      3:
+      - 13
+      - 23
+      4: 3.8.16
+      5: 0.15.7
+      8:
+      - 2
+      - 5
+batch_size:
+  desc: null
+  value: 1
+epochs:
+  desc: null
+  value: 1
+model:
+  desc: null
+  value: crossvit_base_224
+input_size:
+  desc: null
+  value: 240
+drop:
+  desc: null
+  value: 0.1
+drop_path:
+  desc: null
+  value: 0
+drop_block:
+  desc: null
+  value: null
+pretrained:
+  desc: null
+  value: false
+opt:
+  desc: null
+  value: adam
+opt_eps:
+  desc: null
+  value: 1.0e-08
+opt_betas:
+  desc: null
+  value: null
+clip_grad:
+  desc: null
+  value: null
+momentum:
+  desc: null
+  value: 0.9
+weight_decay:
+  desc: null
+  value: 0.1
+sched:
+  desc: null
+  value: cosine
+lr:
+  desc: null
+  value: 1.0e-06
+lr_noise:
+  desc: null
+  value: null
+lr_noise_pct:
+  desc: null
+  value: 0.67
+lr_noise_std:
+  desc: null
+  value: 1.0
+warmup_lr:
+  desc: null
+  value: 1.0e-06
+min_lr:
+  desc: null
+  value: 0
+decay_epochs:
+  desc: null
+  value: 30
+warmup_epochs:
+  desc: null
+  value: 1
+cooldown_epochs:
+  desc: null
+  value: 10
+patience_epochs:
+  desc: null
+  value: 10
+decay_rate:
+  desc: null
+  value: 0.1
+color_jitter:
+  desc: null
+  value: 0.4
+aa:
+  desc: null
+  value: rand-m9-mstd0.5-inc1
+smoothing:
+  desc: null
+  value: 0
+train_interpolation:
+  desc: null
+  value: bicubic
+repeated_aug:
+  desc: null
+  value: true
+crop_ratio:
+  desc: null
+  value: 1.1428571428571428
+reprob:
+  desc: null
+  value: 0.25
+remode:
+  desc: null
+  value: pixel
+recount:
+  desc: null
+  value: 1
+resplit:
+  desc: null
+  value: false
+mixup:
+  desc: null
+  value: 0
+cutmix:
+  desc: null
+  value: 0
+cutmix_minmax:
+  desc: null
+  value: null
+mixup_prob:
+  desc: null
+  value: 0
+mixup_switch_prob:
+  desc: null
+  value: 0
+mixup_mode:
+  desc: null
+  value: batch
+data_path:
+  desc: null
+  value: /bigdata/projects/beidi/data
+data_set:
+  desc: null
+  value: urine
+inat_category:
+  desc: null
+  value: name
+output_dir:
+  desc: null
+  value: ''
+device:
+  desc: null
+  value: cuda:0
+seed:
+  desc: null
+  value: 42
+resume:
+  desc: null
+  value: ''
+resume_loss_scaler:
+  desc: null
+  value: true
+amp:
+  desc: null
+  value: true
+start_epoch:
+  desc: null
+  value: 0
+eval:
+  desc: null
+  value: false
+num_workers:
+  desc: null
+  value: 0
+pin_mem:
+  desc: null
+  value: true
+world_size:
+  desc: null
+  value: 0
+local_rank:
+  desc: null
+  value: null
+dist_url:
+  desc: null
+  value: env://
+auto_resume:
+  desc: null
+  value: false
+finetune:
+  desc: null
+  value: false
+initial_checkpoint:
+  desc: null
+  value: /bigdata/projects/beidi/git/crossvit/pretrain/crossvit_large_224.pth
+nth_fold:
+  desc: null
+  value: 0
+VPUep:
+  desc: null
+  value: 0
+vpu_dim:
+  desc: null
+  value: '384_768'
+features:
+  desc: null
+  value: VPU
+distributed:
+  desc: null
+  value: false

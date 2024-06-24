@@ -1,0 +1,97 @@
+True
+False
+Number of training data: 57
+Number of test data: 73
+Length of train loader 57
+Length of validation loader 73
+Creating model: crossvit_base_224
+number of params: 104464516
+Start training, currnet max acc is 0.00
+Epoch: [0]  [ 0/57]  eta: 0:00:28  lr: 0.000001  loss: 0.5625 (0.5625)  time: 0.5078  data: 0.0017  max mem: 1022
+Epoch: [0]  [50/57]  eta: 0:00:00  lr: 0.000001  loss: 0.5098 (0.5661)  time: 0.0437  data: 0.0009  max mem: 1911
+Epoch: [0]  [56/57]  eta: 0:00:00  lr: 0.000001  loss: 0.2107 (0.5167)  time: 0.0430  data: 0.0009  max mem: 1911
+Epoch: [0] Total time: 0:00:02 (0.0519 s / it)
+Training Acc: 0.8245614171028137
+Averaged stats: lr: 0.000001  loss: 0.2107 (0.5167)
+Test:  [ 0/73]  eta: 0:00:00    time: 0.0093  data: 0.0009  max mem: 1911
+Test:  [50/73]  eta: 0:00:00    time: 0.0084  data: 0.0006  max mem: 1911
+Test:  [72/73]  eta: 0:00:00    time: 0.0086  data: 0.0006  max mem: 1911
+Test: Total time: 0:00:00 (0.0085 s / it)
+false list: b: ['BD22-15324', 'BD22-15799'] a: ['BD22-19387', 'BD22-19389', 'BD22-19485', 'BD22-19509', 'BD22-19512', 'BD22-19841', 'BD22-20487', 'BD22-20541', 'BD22-20624', 'BD22-20697', 'BD22-21189', 'BD22-21381', 'BD22-21605', 'BD22-21652', 'BD22-21875', 'BD22-21883', 'BD22-22466', 'BD22-22637', 'BD22-22762', 'BD23-2305', 'BD23-3548', 'BD23-5863'] s: [] c: []
+Confusion Matrix:
+[[17 24]
+ [ 0 32]]
+* Acc@1 67.123 Acc@5 100.000 loss 0.728
+Accuracy of the network on the 73 test images: 67.12%
+Max accuracy: 67.12%
+Epoch: [1]  [ 0/57]  eta: 0:00:02  lr: 0.000001  loss: 2.4785 (2.4785)  time: 0.0419  data: 0.0007  max mem: 1911
+Epoch: [1]  [50/57]  eta: 0:00:00  lr: 0.000001  loss: 0.2063 (0.5047)  time: 0.0422  data: 0.0007  max mem: 1911
+Epoch: [1]  [56/57]  eta: 0:00:00  lr: 0.000001  loss: 0.1519 (0.4653)  time: 0.0418  data: 0.0007  max mem: 1911
+Epoch: [1] Total time: 0:00:02 (0.0423 s / it)
+Training Acc: 0.8421052694320679
+Averaged stats: lr: 0.000001  loss: 0.1519 (0.4653)
+Test:  [ 0/73]  eta: 0:00:00    time: 0.0093  data: 0.0010  max mem: 1911
+Test:  [50/73]  eta: 0:00:00    time: 0.0084  data: 0.0006  max mem: 1911
+Test:  [72/73]  eta: 0:00:00    time: 0.0084  data: 0.0006  max mem: 1911
+Test: Total time: 0:00:00 (0.0084 s / it)
+false list: b: [] a: ['BD22-19389', 'BD22-19485', 'BD22-19509', 'BD22-19512', 'BD22-20487', 'BD22-20541', 'BD22-21189', 'BD22-21381', 'BD22-21605', 'BD22-21883', 'BD22-22762', 'BD23-3548', 'BD23-5863'] s: ['BD22-14805'] c: []
+Confusion Matrix:
+[[28 13]
+ [ 1 31]]
+* Acc@1 80.822 Acc@5 100.000 loss 0.451
+Accuracy of the network on the 73 test images: 80.82%
+Max accuracy: 80.82%
+Epoch: [2]  [ 0/57]  eta: 0:00:02  lr: 0.000001  loss: 1.7861 (1.7861)  time: 0.0416  data: 0.0007  max mem: 1911
+Epoch: [2]  [50/57]  eta: 0:00:00  lr: 0.000001  loss: 0.1747 (0.4028)  time: 0.0421  data: 0.0007  max mem: 1911
+Epoch: [2]  [56/57]  eta: 0:00:00  lr: 0.000001  loss: 0.1299 (0.3732)  time: 0.0422  data: 0.0007  max mem: 1911
+Epoch: [2] Total time: 0:00:02 (0.0426 s / it)
+Training Acc: 0.8421052694320679
+Averaged stats: lr: 0.000001  loss: 0.1299 (0.3732)
+Test:  [ 0/73]  eta: 0:00:01    time: 0.0180  data: 0.0095  max mem: 1911
+Test:  [50/73]  eta: 0:00:00    time: 0.0085  data: 0.0006  max mem: 1911
+Test:  [72/73]  eta: 0:00:00    time: 0.0085  data: 0.0006  max mem: 1911
+Test: Total time: 0:00:00 (0.0086 s / it)
+false list: b: [] a: ['BD22-19389', 'BD22-19509', 'BD22-20487', 'BD22-20541', 'BD22-21189', 'BD22-21605', 'BD22-21883', 'BD22-22762', 'BD23-3548', 'BD23-5863'] s: ['BD22-14805'] c: []
+Confusion Matrix:
+[[31 10]
+ [ 1 31]]
+* Acc@1 84.932 Acc@5 100.000 loss 0.451
+Accuracy of the network on the 73 test images: 84.93%
+Max accuracy: 84.93%
+Epoch: [3]  [ 0/57]  eta: 0:00:02  lr: 0.000001  loss: 1.8672 (1.8672)  time: 0.0418  data: 0.0007  max mem: 1911
+Traceback (most recent call last):
+  File "main.py", line 426, in <module>
+    main(args,args.nth_fold)
+  File "main.py", line 369, in main
+    train_stats = train_one_epoch(
+  File "/bigdata/projects/beidi/git/LESS/1-WSI_aggregation/engine.py", line 46, in train_one_epoch
+    output = model(samples1,samples2).squeeze()
+  File "/data/miniconda3/envs/bdcell/lib/python3.8/site-packages/torch/nn/modules/module.py", line 1194, in _call_impl
+    return forward_call(*input, **kwargs)
+  File "/bigdata/projects/beidi/git/LESS/1-WSI_aggregation/models/crossvit.py", line 401, in forward
+    xs = self.forward_features(x1,x2)
+  File "/bigdata/projects/beidi/git/LESS/1-WSI_aggregation/models/crossvit.py", line 393, in forward_features
+    xs = blk(xs)
+  File "/data/miniconda3/envs/bdcell/lib/python3.8/site-packages/torch/nn/modules/module.py", line 1194, in _call_impl
+    return forward_call(*input, **kwargs)
+  File "/bigdata/projects/beidi/git/LESS/1-WSI_aggregation/models/crossvit.py", line 260, in forward
+    outs_b = [block(x_) for x_, block in zip(x, self.blocks)]
+  File "/bigdata/projects/beidi/git/LESS/1-WSI_aggregation/models/crossvit.py", line 260, in <listcomp>
+    outs_b = [block(x_) for x_, block in zip(x, self.blocks)]
+  File "/data/miniconda3/envs/bdcell/lib/python3.8/site-packages/torch/nn/modules/module.py", line 1194, in _call_impl
+    return forward_call(*input, **kwargs)
+  File "/data/miniconda3/envs/bdcell/lib/python3.8/site-packages/torch/nn/modules/container.py", line 204, in forward
+    input = module(input)
+  File "/data/miniconda3/envs/bdcell/lib/python3.8/site-packages/torch/nn/modules/module.py", line 1194, in _call_impl
+    return forward_call(*input, **kwargs)
+  File "/data/miniconda3/envs/bdcell/lib/python3.8/site-packages/timm/models/vision_transformer.py", line 269, in forward
+    x = x + self.drop_path2(self.ls2(self.mlp(self.norm2(x))))
+  File "/data/miniconda3/envs/bdcell/lib/python3.8/site-packages/torch/nn/modules/module.py", line 1194, in _call_impl
+    return forward_call(*input, **kwargs)
+  File "/data/miniconda3/envs/bdcell/lib/python3.8/site-packages/timm/models/layers/mlp.py", line 28, in forward
+    x = self.act(x)
+  File "/data/miniconda3/envs/bdcell/lib/python3.8/site-packages/torch/nn/modules/module.py", line 1194, in _call_impl
+    return forward_call(*input, **kwargs)
+  File "/data/miniconda3/envs/bdcell/lib/python3.8/site-packages/torch/nn/modules/activation.py", line 684, in forward
+    return F.gelu(input, approximate=self.approximate)
+KeyboardInterrupt

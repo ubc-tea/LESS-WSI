@@ -1,0 +1,29 @@
+2024-06-13 13:44:00,384 INFO    MainThread:3721572 [wandb_setup.py:_flush():76] Current SDK version is 0.15.7
+2024-06-13 13:44:00,384 INFO    MainThread:3721572 [wandb_setup.py:_flush():76] Configure stats pid to 3721572
+2024-06-13 13:44:00,384 INFO    MainThread:3721572 [wandb_setup.py:_flush():76] Loading settings from /home/tealab/.config/wandb/settings
+2024-06-13 13:44:00,384 INFO    MainThread:3721572 [wandb_setup.py:_flush():76] Loading settings from /bigdata/projects/beidi/git/LESS/1-WSI_aggregation/wandb/settings
+2024-06-13 13:44:00,384 INFO    MainThread:3721572 [wandb_setup.py:_flush():76] Loading settings from environment variables: {}
+2024-06-13 13:44:00,384 INFO    MainThread:3721572 [wandb_setup.py:_flush():76] Applying setup settings: {'_disable_service': False}
+2024-06-13 13:44:00,384 INFO    MainThread:3721572 [wandb_setup.py:_flush():76] Inferring run settings from compute environment: {'program_relpath': 'LESS/1-WSI_aggregation/main.py', 'program': 'main.py'}
+2024-06-13 13:44:00,384 INFO    MainThread:3721572 [wandb_init.py:_log_setup():507] Logging user logs to /bigdata/projects/beidi/git/LESS/1-WSI_aggregation/wandb/run-20240613_134400-evbz4tl0/logs/debug.log
+2024-06-13 13:44:00,384 INFO    MainThread:3721572 [wandb_init.py:_log_setup():508] Logging internal logs to /bigdata/projects/beidi/git/LESS/1-WSI_aggregation/wandb/run-20240613_134400-evbz4tl0/logs/debug-internal.log
+2024-06-13 13:44:00,384 INFO    MainThread:3721572 [wandb_init.py:init():547] calling init triggers
+2024-06-13 13:44:00,384 INFO    MainThread:3721572 [wandb_init.py:init():554] wandb.init called with sweep_config: {}
+config: {}
+2024-06-13 13:44:00,384 INFO    MainThread:3721572 [wandb_init.py:init():596] starting backend
+2024-06-13 13:44:00,384 INFO    MainThread:3721572 [wandb_init.py:init():600] setting up manager
+2024-06-13 13:44:00,386 INFO    MainThread:3721572 [backend.py:_multiprocessing_setup():106] multiprocessing start_methods=fork,spawn,forkserver, using: spawn
+2024-06-13 13:44:00,387 INFO    MainThread:3721572 [wandb_init.py:init():606] backend started and connected
+2024-06-13 13:44:00,390 INFO    MainThread:3721572 [wandb_init.py:init():697] updated telemetry
+2024-06-13 13:44:00,399 INFO    MainThread:3721572 [wandb_init.py:init():730] communicating run to backend with 60.0 second timeout
+2024-06-13 13:44:00,689 INFO    MainThread:3721572 [wandb_run.py:_on_init():2174] communicating current version
+2024-06-13 13:44:00,733 INFO    MainThread:3721572 [wandb_run.py:_on_init():2183] got version response upgrade_message: "wandb version 0.17.1 is available!  To upgrade, please run:\n $ pip install wandb --upgrade"
+
+2024-06-13 13:44:00,733 INFO    MainThread:3721572 [wandb_init.py:init():781] starting run threads in backend
+2024-06-13 13:44:03,538 INFO    MainThread:3721572 [wandb_run.py:_console_start():2153] atexit reg
+2024-06-13 13:44:03,538 INFO    MainThread:3721572 [wandb_run.py:_redirect():2008] redirect: wrap_raw
+2024-06-13 13:44:03,538 INFO    MainThread:3721572 [wandb_run.py:_redirect():2073] Wrapping output streams.
+2024-06-13 13:44:03,538 INFO    MainThread:3721572 [wandb_run.py:_redirect():2098] Redirects installed.
+2024-06-13 13:44:03,538 INFO    MainThread:3721572 [wandb_init.py:init():822] run started, returning control to user process
+2024-06-13 13:44:03,539 INFO    MainThread:3721572 [wandb_run.py:_config_callback():1282] config_cb None None {'batch_size': 1, 'epochs': 1, 'model': 'crossvit_base_224', 'input_size': 240, 'drop': 0.1, 'drop_path': 0, 'drop_block': None, 'pretrained': False, 'opt': 'adam', 'opt_eps': 1e-08, 'opt_betas': None, 'clip_grad': None, 'momentum': 0.9, 'weight_decay': 0.1, 'sched': 'cosine', 'lr': 1e-06, 'lr_noise': None, 'lr_noise_pct': 0.67, 'lr_noise_std': 1.0, 'warmup_lr': 1e-06, 'min_lr': 0, 'decay_epochs': 30, 'warmup_epochs': 1, 'cooldown_epochs': 10, 'patience_epochs': 10, 'decay_rate': 0.1, 'color_jitter': 0.4, 'aa': 'rand-m9-mstd0.5-inc1', 'smoothing': 0, 'train_interpolation': 'bicubic', 'repeated_aug': True, 'crop_ratio': 1.1428571428571428, 'reprob': 0.25, 'remode': 'pixel', 'recount': 1, 'resplit': False, 'mixup': 0, 'cutmix': 0, 'cutmix_minmax': None, 'mixup_prob': 0, 'mixup_switch_prob': 0, 'mixup_mode': 'batch', 'data_path': '/bigdata/projects/beidi/data', 'data_set': 'urine', 'inat_category': 'name', 'output_dir': '', 'device': 'cuda:0', 'seed': 42, 'resume': '', 'resume_loss_scaler': True, 'amp': True, 'start_epoch': 0, 'eval': False, 'num_workers': 0, 'pin_mem': True, 'world_size': 0, 'local_rank': None, 'dist_url': 'env://', 'auto_resume': False, 'finetune': False, 'initial_checkpoint': '/bigdata/projects/beidi/git/crossvit/pretrain/crossvit_large_224.pth', 'nth_fold': 0, 'VPUep': 0, 'vpu_dim': '384_768', 'features': 'VPU', 'distributed': False}
+2024-06-13 13:44:13,646 WARNING MsgRouterThr:3721572 [router.py:message_loop():77] message_loop has been closed
