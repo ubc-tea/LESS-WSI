@@ -39,11 +39,11 @@ class FilterableImageFolder(ImageFolder):
         return classes, class_to_idx
 
 class UrineSlideDataset(Dataset):
-    def __init__(self, dataset_path=''):
+    def __init__(self, dataset_path='',config=None):
         train_data_path = dataset_path
         self.imagenet = datasets.ImageFolder(root=train_data_path)
         self.transform = transforms.Compose([
-            transforms.Resize((256, 256), interpolation=0),
+            transforms.Resize((config.scale, config.scale), interpolation=0),
              # transforms.Pad(4),
              # transforms.RandomCrop(224),
              transforms.RandomHorizontalFlip(),
@@ -107,7 +107,7 @@ class urine_labeled_dataset(Dataset):
        Code for reading the ImageNet
        """
 
-    def __init__(self, dataset_path='', target_transform=None, data_class = None):
+    def __init__(self, dataset_path='', target_transform=None, data_class = None, config=None):
         self.target_transform = target_transform
         self.data_class = data_class
         # train_data_path = os.path.join(dataset_path, 'train')
@@ -120,7 +120,7 @@ class urine_labeled_dataset(Dataset):
             # self.imagenet = datasets.ImageFolder(root=train_data_path)
             self.imagenet = FilterableImageFolder(root=train_data_path,valid_classes=['benign','cancer'])
         self.transform = transforms.Compose(
-             [transforms.Resize((256, 256), interpolation=0),
+             [transforms.Resize((config.scale, config.scale), interpolation=0),
              #   transforms.Pad(4),
              #   transforms.RandomCrop(224),
                transforms.RandomHorizontalFlip(),
@@ -152,13 +152,13 @@ class UrineSlideDataset(Dataset):
        Code for reading the ImageNet
        """
 
-    def __init__(self, dataset_path='',target_transform=None):
+    def __init__(self, dataset_path='',target_transform=None,config=None):
         self.target_transform = target_transform
         # train_data_path = os.path.join(dataset_path, 'train')
         self.dataset_path = dataset_path
         self.imagenet = datasets.ImageFolder(root=dataset_path)
         self.transform = transforms.Compose([
-            transforms.Resize((256, 256), interpolation=0),
+            transforms.Resize((config.scale, config.scale), interpolation=0),
             # transforms.Pad(4),
             # transforms.RandomCrop(224),
             transforms.RandomHorizontalFlip(),
@@ -239,35 +239,28 @@ class urine_unlabeled_dataset(urine_labeled_dataset):
         else:
             pass
 
-def get_urine_data(positive_label_list,nth_fold):
-    target_transform = lambda x: 1 if x in positive_label_list else 0
-    if nth_fold > 0:
-        train_labeled_dataset = urine_labeled_dataset('/bigdata/projects/beidi/data/tile128_rand100_new_kfold/'+str(nth_fold)+'/train', data_class='p', target_transform=target_transform)
-        train_unlabeled_dataset = urine_labeled_dataset('/bigdata/projects/beidi/data/tile128_rand100_new_kfold/'+str(nth_fold)+'/train', data_class ='u', target_transform=target_transform)
-        val_unlabeled_dataset = urine_labeled_dataset('/bigdata/projects/beidi/data/tile128_rand100_new_kfold/'+str(nth_fold)+'/test', data_class ='u', target_transform=target_transform)
-        val_labeled_dataset = urine_labeled_dataset('/bigdata/projects/beidi/data/tile128_rand100_new_kfold/'+str(nth_fold)+'/test', data_class ='p',target_transform=target_transform)
-        test_dataset = urine_labeled_dataset('/bigdata/projects/beidi/data/tile128_rand100_new_kfold/'+str(nth_fold)+'/test',target_transform=target_transform)
-    else:
-        train_labeled_dataset = urine_labeled_dataset('/bigdata/projects/beidi/data/tile128to256_rand100_new/train',data_class='p', target_transform=target_transform)
-        train_unlabeled_dataset = urine_labeled_dataset('/bigdata/projects/beidi/data/tile128to256_rand100_new/train', data_class='u', target_transform=target_transform)
-        val_unlabeled_dataset = urine_labeled_dataset('/bigdata/projects/beidi/data/tile128to256_rand100_new/test',data_class='u', target_transform=target_transform)
-        val_labeled_dataset = urine_labeled_dataset('/bigdata/projects/beidi/data/tile128to256_rand100_new/test',data_class='p', target_transform=target_transform)
-        test_dataset = urine_labeled_dataset('/bigdata/projects/beidi/data/tile128to256_rand100_new/test',target_transform=target_transform)
+def get_urine_data(config):
+    target_transform = lambda x: 1 if x in config.positive_label_list else 0
+    train_labeled_dataset = urine_labeled_dataset(os.path.join(config.slide_root,str(config.nth_fold),'train'),data_class='p', target_transform=target_transform, config=config)
+    train_unlabeled_dataset = urine_labeled_dataset(os.path.join(config.slide_root,str(config.nth_fold),'train'), data_class='u', target_transform=target_transform, config=config)
+    val_unlabeled_dataset = urine_labeled_dataset(os.path.join(config.slide_root,str(config.nth_fold),'test'),data_class='u', target_transform=target_transform, config=config)
+    val_labeled_dataset = urine_labeled_dataset(os.path.join(config.slide_root,str(config.nth_fold),'test'),data_class='p', target_transform=target_transform, config=config)
+    test_dataset = urine_labeled_dataset(os.path.join(config.slide_root,str(config.nth_fold),'test'),target_transform=target_transform, config=config)
 
     return train_labeled_dataset, train_unlabeled_dataset, val_labeled_dataset, val_unlabeled_dataset, test_dataset
 
-def get_urine_loaders(positive_label_list, batch_size=500,nth_fold=''):
-    train_labeled_dataset, train_unlabeled_dataset, val_labeled_dataset, val_unlabeled_dataset, test_dataset = get_urine_data(positive_label_list=positive_label_list,nth_fold=nth_fold)
-    p_loader = DataLoader(dataset=train_labeled_dataset, batch_size=batch_size, shuffle=True, drop_last=True)
-    x_loader = DataLoader(dataset=train_unlabeled_dataset, batch_size=batch_size, shuffle=True, drop_last=True)
-    val_p_loader = DataLoader(dataset=val_labeled_dataset, batch_size=batch_size, shuffle=False)
-    val_x_loader = DataLoader(dataset=val_unlabeled_dataset, batch_size=batch_size, shuffle=False)
-    test_loader = DataLoader(dataset=test_dataset, batch_size=batch_size, shuffle=False)
+def get_urine_loaders(config):
+    train_labeled_dataset, train_unlabeled_dataset, val_labeled_dataset, val_unlabeled_dataset, test_dataset = get_urine_data(config)
+    p_loader = DataLoader(dataset=train_labeled_dataset, batch_size=config.batch_size, shuffle=True, drop_last=True)
+    x_loader = DataLoader(dataset=train_unlabeled_dataset, batch_size=config.batch_size, shuffle=True, drop_last=True)
+    val_p_loader = DataLoader(dataset=val_labeled_dataset, batch_size=config.batch_size, shuffle=False)
+    val_x_loader = DataLoader(dataset=val_unlabeled_dataset, batch_size=config.batch_size, shuffle=False)
+    test_loader = DataLoader(dataset=test_dataset, batch_size=config.batch_size, shuffle=False)
     return x_loader, p_loader, val_x_loader, val_p_loader, test_loader
 
 def get_urine_data_inference(batch_size=500,nth_fold=''):
-    train_dataset = urine_labeled_dataset('/bigdata/projects/beidi/data/tile128to256_rand100_new/train',target_transform=target_transform)
-    test_dataset = urine_labeled_dataset('/bigdata/projects/beidi/data/tile128to256_rand100_new/test',target_transform=target_transform)
+    train_dataset = urine_labeled_dataset(os.path.join(config.slide_root,str(config.nth_fold),'train'),target_transform=target_transform, config=config)
+    test_dataset = urine_labeled_dataset(os.path.join(config.slide_root,str(config.nth_fold),'test'),target_transform=target_transform, config=config)
     return train_dataset, test_dataset
 
 def get_urine_loaders_inference(positive_label_list, batch_size=500,nth_fold=''):

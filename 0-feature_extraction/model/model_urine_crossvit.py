@@ -57,28 +57,30 @@ class NetworkPhi_scale128(nn.Module):
         self.af = F.relu
 
     def forward(self, x):
+        print(x.size())
         h = self.conv1(x)
-        # print('1 layer',h.size())
+        print('1 layer',h.size())
         h = self.af(h)
         h = self.conv2(h)
         h = self.af(h)
-        # print('2 layer', h.size())
+        print('2 layer', h.size())
         # h = self.pool(h)
         h = self.conv3(h)
-        # print('3 layer', h.size())
+        print('3 layer', h.size())
         h = self.af(h)
         h = self.conv4(h)
-        # print('4 layer', h.size())
+        print('4 layer', h.size())
         h = self.af(h)
+        print(h.size())
         h = h.view(-1, 640)
         # h = h.view(-1,32)
         h = self.fc1(h)
-        # print('5 layer', h.size())
+        print('5 layer', h.size())
         h = self.af(h)
         h = self.fc2(h)
         embedding = h
-        # print('embedding',embedding.size())
+        print('embedding',embedding.size())
         last_h = self.fc3(h)
-        # print(last_h.size())
+        print(last_h.size())
         return self.LogSoftMax(last_h), embedding
 

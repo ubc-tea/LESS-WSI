@@ -20,7 +20,7 @@ parser.add_argument('--epochs', type=int, default=0)
 parser.add_argument('--alpha', type=float, default=0.3, help="parameter in Mixup")
 parser.add_argument('--lam', type=float, default=0.03, help="weight of the regularizer")
 parser.add_argument('--th', type=float, default=0.5, help="threshold of decision")
-parser.add_argument('--scale', type=int, default=128, help="scale")
+parser.add_argument('--scale', type=int, default=256, help="scale")
 parser.add_argument('--gnnlr', type=float, default=5e-4)
 parser.add_argument('--gnnbs', type=int, default=1)
 parser.add_argument('--get_feature', default= 1)
@@ -28,7 +28,7 @@ parser.add_argument('--seed',type=int, default=0)
 parser.add_argument('--nth_fold',type=int, default=0)
 parser.add_argument('--VPUep',type=int, default=10)
 parser.add_argument('--save_dir',default= './save',help="the path to save pretrained VPU")
-parser.add_argument('--slide_root',default='/bigdata/projects/beidi/data/tile256to128_rand100_new',help="the path of raw patches")
+parser.add_argument('--slide_root',default='/bigdata/projects/beidi/data/tile128to256_rand100_new',help="the path of raw patches")
 parser.add_argument('--feature_root',default='./saved_feature',help="the path to save features from pretrained VPU")
 parser.add_argument('--get_label', action='store_false', help='Get VPU predicted labels')
 
@@ -101,7 +101,7 @@ def main(config,nth_fold):
 
     # set up the loaders
     if config.dataset in ['urine','FANC']:
-        x_loader, p_loader, val_x_loader, val_p_loader, test_loader = get_loaders(batch_size=config.batch_size,positive_label_list=config.positive_label_list,nth_fold=nth_fold)
+        x_loader, p_loader, val_x_loader, val_p_loader, test_loader = get_loaders(config)
 
     if config.dataset in ['cifar10', 'fashionMNIST', 'stl10']:
         x_loader, p_loader, val_x_loader, val_p_loader, test_loader, idx = get_loaders(batch_size=config.batch_size,
