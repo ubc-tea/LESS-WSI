@@ -39,7 +39,7 @@ def get_fea(val_loader, model):
     total_embeddings = []
     total_pred = []
     for i, data in enumerate(val_loader):
-        if i>0:
+        if i > 0:
             break
         images, labels = data
         images = images.to(device)

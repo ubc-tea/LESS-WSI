@@ -84,13 +84,13 @@ def run_vpu(config, loaders, NetworkPhi,nth_fold):
             best_model = model_phi.state_dict()
         torch.save(best_model, checkpoint_path + '/' + str(epoch) + '.pth')
 
-        if config.get_feature:
-            if config.dataset == 'urine':
-                get_feature_urine(config,model_phi,nth_fold,config.VPUep)
+    if config.get_feature:
+        if config.dataset == 'urine':
+            get_feature_urine(config,model_phi,nth_fold,config.VPUep)
 
 
     # if config.get_label:
-    #     get_vpu_label(config, log_max_phi) 
+        # get_vpu_label(config, log_max_phi) 
     
     # inform users model in which epoch is finally picked
     # Threshold(model_phi, config,10)
@@ -278,7 +278,7 @@ def cal_val_var(model_phi, val_p_loader, val_x_loader):
 
 def get_vpu_label(config,log_max_phi):
     from dataset.dataset_urine import get_urine_loaders_inference
-    train_loader, test_loader = get_urine_loaders_inference(positive_label_list=config.positive_label_list,batch_size=config.batch_size,nth_fold=config.nth_fold)
+    train_loader, test_loader = get_urine_loaders_inference(config)
     
     # set the model to evaluation mode
     model_phi.eval()

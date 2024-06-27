@@ -7,10 +7,7 @@ def get_checkpoint_path(config):
     """
     return the path of saving current model.
     """
-    # checkpoint_path = os.path.join(os.getcwd(),'save', config.dataset+'P=' + str(config.positive_label_list)+
-    #                                '_lr=' + str(config.lr)+'_lambda=' + str(config.lam)+
-    #                                '_alpha=' + str(config.alpha))
-    checkpoint_path = os.path.join('.', '_'.join((config.dataset,'lr='+str(config.lr), 'lambda='+str(config.lam), 'alpha='+str(config.alpha), 'scale='+str(config.scale))), 'fold='+str(config.nth_fold))
+    checkpoint_path = os.path.join('.','saved_checkpoint', '_'.join((config.dataset,'lr='+str(config.lr), 'lambda='+str(config.lam), 'alpha='+str(config.alpha), 'scale='+str(config.scale))), 'fold='+str(config.nth_fold))
     return checkpoint_path
 
 

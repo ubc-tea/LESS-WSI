@@ -258,13 +258,14 @@ def get_urine_loaders(config):
     test_loader = DataLoader(dataset=test_dataset, batch_size=config.batch_size, shuffle=False)
     return x_loader, p_loader, val_x_loader, val_p_loader, test_loader
 
-def get_urine_data_inference(batch_size=500,nth_fold=''):
+def get_urine_data_inference(config):
+    target_transform = lambda x: 1 if x in config.positive_label_list else 0
     train_dataset = urine_labeled_dataset(os.path.join(config.slide_root,str(config.nth_fold),'train'),target_transform=target_transform, config=config)
     test_dataset = urine_labeled_dataset(os.path.join(config.slide_root,str(config.nth_fold),'test'),target_transform=target_transform, config=config)
     return train_dataset, test_dataset
 
-def get_urine_loaders_inference(positive_label_list, batch_size=500,nth_fold=''):
-    train_labeled_dataset, train_unlabeled_dataset, val_labeled_dataset, val_unlabeled_dataset, test_dataset = get_urine_data_inference(nth_fold=nth_fold)
-    x_loader = DataLoader(dataset=train_unlabeled_dataset, batch_size=batch_size, shuffle=False, drop_last=False)
-    test_loader = DataLoader(dataset=test_dataset, batch_size=batch_size, shuffle=False)
+def get_urine_loaders_inference(config):
+    train_labeled_dataset, train_unlabeled_dataset, val_labeled_dataset, val_unlabeled_dataset, test_dataset = get_urine_data_inference(config)
+    x_loader = DataLoader(dataset=train_unlabeled_dataset, batch_size=config.batch_size, shuffle=False, drop_last=False)
+    test_loader = DataLoader(dataset=test_dataset, batch_size=config.batch_size, shuffle=False)
     return x_loader, test_loader
