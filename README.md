@@ -221,13 +221,24 @@ directory name, not by a split file):
 ```
 
 The split is read as `os.path.join(slide_root, str(nth_fold), 'train' | 'test')`
-in `0-feature_extraction/dataset/dataset_urine.py`. Each slide has ~100 patches
-(paper). Class folders are matched by name: `cancer / benign / atypical /
-suspicious` (the `--positive_label_list` for the urine dataset is `[1]`,
-i.e. *cancer* is positive; the rest are unlabeled in the VPU sense).
+in `0-feature_extraction/dataset/dataset_urine.py`. Each slide has ~100
+patches (paper).
 
-Slide-level labels are inferred from the parent class folder. Note: `run.py`'s
-default `--slide_root` points to an old absolute path
+**VPU training only uses `cancer` and `benign` slides.** The dataset
+wrapper hard-codes `valid_classes=['benign', 'cancer']` for the labeled /
+unlabeled VPU loaders, so any `atypical` or `suspicious` patches present
+under a fold's `train/` are ignored during VPU training. They are still
+embedded at feature-extraction time, so `<class>/<slide_id>` directories
+for all four classes do appear under `--feature_root` afterwards (Step 1's
+aggregator binarizes `cancer ∪ suspicious` vs. `benign ∪ atypical`).
+
+In VPU terms, **`benign` is the labeled positive class** (`p_loader`) and
+**`cancer` is the unlabeled class** (`x_loader`). Concretely, ImageFolder
+sorts class names alphabetically (`benign=0`, `cancer=1`) and
+`run.py`'s `--positive_label_list = [0]` selects `benign` as the positive
+side. Slide-level labels are inferred from the parent class folder.
+
+Note: `run.py`'s default `--slide_root` points to an old absolute path
 (`/bigdata/projects/beidi/...`) — **always override it**.
 
 ### Train VPU + extract features (one scale at a time)
