@@ -22,6 +22,11 @@ parser.add_argument('--lam', type=float, default=0.03, help="weight of the regul
 parser.add_argument('--th', type=float, default=0.5, help="threshold of decision")
 parser.add_argument('--scale', type=int, default=256, help="scale")
 parser.add_argument('--get_feature',  type=int, default=1)
+parser.add_argument('--feature_batch_size', type=int, default=128,
+                    help="batch size used when feeding patches through the "
+                         "trained VPU encoder for feature dumping. Default 128 "
+                         "fits one slide's 100 patches in a single batch but "
+                         "also handles slides with more patches.")
 parser.add_argument('--seed',type=int, default=0)
 parser.add_argument('--nth_fold',type=int, default=0)
 parser.add_argument('--VPUep',type=int, default=10)

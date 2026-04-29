@@ -319,6 +319,7 @@ Defined in `0-feature_extraction/run.py`:
 | `--lam` | `0.03` | weight of the VPU regulariser. |
 | `--th` | `0.5` | decision threshold for VPU pseudo-labels. |
 | `--get_feature` | `1` | `1` = after training, reload VPU and dump features; `0` = train only. |
+| `--feature_batch_size` | `128` | Batch size used when feeding patches through the trained VPU for feature dumping. The full DataLoader is now consumed (no per-batch break), so any value works; 128 conveniently fits a 100-patch slide in a single batch. |
 | `--get_label` | (flag) | toggle to also write VPU pseudo-labels per patch. |
 | `--save_dir` | `./save` | directory for VPU checkpoints (`<save_dir>/<epoch>.pth`). |
 | `--feature_root` | `./saved_feature` | directory for the per-patch feature banks consumed by Step 1. |
