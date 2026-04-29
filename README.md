@@ -9,6 +9,25 @@ The following commands are examples of running the code for in-house urine cytol
 
 ## Preprocessing
 
+> **Note.** The exact parameters in this section (DeepZoom level, intensity
+> thresholds, the specific sliding-window screening rule) were tuned on our
+> private urine cytology cohort. They are **not** required by the rest of
+> the LESS pipeline. The only invariants the method actually needs are:
+>
+> - **100 informative patches per slide** (random sampling is fine), and
+> - a **256×256 patch** plus the **central 128×128 crop** of that same
+>   patch as the two scales fed into Step 0.
+>
+> On a new dataset you have three reasonable options for getting there:
+> (a) reuse [CLAM's](https://github.com/mahmoodlab/CLAM) WSI segmentation +
+> patching with whatever foreground threshold suits your stain, then
+> randomly subsample to 100 / slide; (b) design your own screening
+> heuristic; or (c) reuse the scripts below as a starting point and just
+> retune `--mean_thr / --std_thr / --center_mean_thr / --dz_level_offset`
+> for your scanner and stain. The sample-and-relayout step
+> (`subsample_and_layout.py`) is dataset-agnostic and can sit on top of any
+> of the three.
+
 Although the preprocessing of [CLAM](https://github.com/mahmoodlab/CLAM/tree/master#wsi-segmentation-and-patching) is widely used for histopathology WSIs, it is not suitable to be directly used for cytology WSIs, which will lose a lot of patches. Therefore, we built our own preprocessing pipeline to select informative patches. Since the cells are sparsely / randomly located in cytology WSIs, we randomly sample 100 patches per scale per slide.
 
 The pipeline has two stages, both inside `0-feature_extraction/`:
