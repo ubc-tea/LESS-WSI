@@ -86,6 +86,21 @@ def run_vpu(config, loaders, NetworkPhi,nth_fold):
 
     if config.get_feature:
         if config.dataset == 'urine':
+            # Reload the checkpoint produced at epoch == config.VPUep, then
+            # extract features from that exact model. Without this, the
+            # in-memory model_phi held the weights of the *final* training
+            # epoch, which has no relation to --VPUep — making the flag
+            # silently a no-op for feature extraction.
+            vpuep_ckpt = os.path.join(checkpoint_path, f'{config.VPUep}.pth')
+            if not os.path.exists(vpuep_ckpt):
+                raise FileNotFoundError(
+                    f"VPU checkpoint not found: {vpuep_ckpt}. "
+                    f"Make sure --epochs >= --VPUep so that "
+                    f"<save_dir>/<VPUep>.pth has been written."
+                )
+            print(f'Loading VPU checkpoint for feature extraction: {vpuep_ckpt}')
+            state_dict = torch.load(vpuep_ckpt, map_location='cuda' if torch.cuda.is_available() else 'cpu')
+            model_phi.load_state_dict(state_dict)
             get_feature_urine(config,model_phi,nth_fold,config.VPUep)
 
 

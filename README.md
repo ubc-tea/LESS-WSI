@@ -237,9 +237,12 @@ default `--slide_root` points to an old absolute path
 
 ### Train VPU + extract features (one scale at a time)
 
-Run from `0-feature_extraction/`. Train for `--epochs N` and start saving
-checkpoints from epoch `--VPUep`; with `--get_feature 1` the script then
-reloads the saved VPU and writes per-patch features to `--feature_root`.
+Run from `0-feature_extraction/`. Train for `--epochs N`. Each epoch writes
+`<save_dir>/<epoch>.pth` containing the best-validation-so-far state dict
+(lowest `val_var` up to and including that epoch). With `--get_feature 1`
+the script then explicitly reloads `<save_dir>/<VPUep>.pth` (i.e. the
+best-val checkpoint as of epoch `--VPUep`) and writes per-patch features
+to `--feature_root` — so `--VPUep` acts as an early-stop index.
 
 ```bash
 cd 0-feature_extraction
@@ -311,7 +314,7 @@ Defined in `0-feature_extraction/run.py`:
 | `--nth_fold` | `0` | 0-indexed CV fold (5-fold split). |
 | `--seed` | `0` | RNG seed. Paper averages over `{0, 42, 212330, 2294892, 990624}`. |
 | `--epochs` | `0` | total VPU training epochs. **Set >= `--VPUep`** (e.g. 30) — leaving the default skips training. |
-| `--VPUep` | `10` | epoch from which the VPU checkpoint used for feature extraction is taken. |
+| `--VPUep` | `10` | early-stop checkpoint index used for feature extraction. The training loop writes one `.pth` per epoch named `<epoch>.pth`, but each file actually contains the **best-validation-so-far** state dict (lowest `val_var` over all epochs ≤ that epoch). Setting `--VPUep N` therefore loads "the best VPU model seen during the first N+1 epochs". The paper uses `N=10`. |
 | `--batch-size` | `100` | patches per batch (matches 100 patches/slide). |
 | `--lr` | `1e-4` | learning rate. |
 | `--num_labeled` | `3000` | number of labeled positive patches used by VPU. |
