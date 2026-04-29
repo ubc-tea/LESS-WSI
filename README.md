@@ -133,7 +133,7 @@ Output (per `--out-roots`):
 
 ```
 <out_root>/
-├── 0/
+├── 0/                            # fold 0 (folds 1..4 have the same structure)
 │   ├── train/
 │   │   ├── cancer/<slide_id>/<patch>.png
 │   │   ├── benign/<slide_id>/<patch>.png
@@ -141,8 +141,7 @@ Output (per `--out-roots`):
 │   │   └── suspicious/<slide_id>/<patch>.png
 │   └── test/
 │       └── ... (same four classes)
-├── 1/   2/   3/   4/
-└── splits.json   # the realised slide-level split (same across scales)
+└── splits.json                   # the realised slide-level split (same across scales)
 ```
 
 The two `--out-roots` are then exactly what you pass to `run.py`:
