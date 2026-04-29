@@ -209,19 +209,15 @@ directory name, not by a split file):
 
 ```
 <slide_root>/                        # e.g. PATH_TO_SAVED_SCALE128_PATCHES
-├── 0/                               # fold 0
-│   ├── train/
-│   │   ├── cancer/<slide_id>/<patch>.png
-│   │   ├── benign/<slide_id>/<patch>.png
-│   │   ├── atypical/<slide_id>/<patch>.png
-│   │   └── suspicious/<slide_id>/<patch>.png
-│   └── test/
-│       ├── cancer/<slide_id>/...
-│       └── ...
-├── 1/                               # fold 1
-├── 2/
-├── 3/
-└── 4/
+└── 0/                               # fold 0 (folds 1..4 have the same structure)
+    ├── train/
+    │   ├── cancer/<slide_id>/<patch>.png
+    │   ├── benign/<slide_id>/<patch>.png
+    │   ├── atypical/<slide_id>/<patch>.png
+    │   └── suspicious/<slide_id>/<patch>.png
+    └── test/
+        ├── cancer/<slide_id>/...
+        └── ...
 ```
 
 The split is read as `os.path.join(slide_root, str(nth_fold), 'train' | 'test')`
