@@ -128,7 +128,7 @@ python run.py \
 ```
 
 > **Important:** `run.py`'s default `--epochs 0` means *do not train, only
-> extract*. Set `--epochs >= --VPUep` (e.g. `30` and `10`) to actually train
+> extract*. Set `--epochs >= --VPUep` (e.g. `10`) to actually train
 > the VPU. Set `--get_feature 0` if you only want to train, `1` (default) to
 > also dump features.
 
