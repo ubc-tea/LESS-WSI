@@ -61,42 +61,25 @@ cytology WSIs, we crop patches at **two scales** (e.g. 128 px and 256 px)
 and run this step **twice** — once per scale. The two resulting feature
 banks feed into the cross-attention aggregator in Step 1.
 
-### Data folder structure
+### What VPU sees
 
-`--slide_root` should point to a per-scale patch dump that has **already
-been split into the 5 CV folds** (the dataset wrapper indexes folds by
-directory name, not by a split file):
+Step 0 expects the per-scale 5-fold tree produced in
+[Preprocessing](#preprocessing). The split is read as
+`os.path.join(slide_root, str(nth_fold), 'train' | 'test')` in
+`0-feature_extraction/dataset/dataset_urine.py`.
 
-```
-<slide_root>/                        # e.g. PATH_TO_SAVED_SCALE128_PATCHES
-└── 0/                               # fold 0 (folds 1..4 have the same structure)
-    ├── train/
-    │   ├── cancer/<slide_id>/<patch>.png
-    │   ├── benign/<slide_id>/<patch>.png
-    │   ├── atypical/<slide_id>/<patch>.png
-    │   └── suspicious/<slide_id>/<patch>.png
-    └── test/
-        ├── cancer/<slide_id>/...
-        └── ...
-```
+**VPU training only uses `cancer` and `benign` slides** (the dataset
+wrapper hard-codes `valid_classes=['benign', 'cancer']`). `atypical` and
+`suspicious` patches, if present, are ignored during VPU training but are
+still embedded at feature-extraction time, so `<class>/<slide_id>`
+directories for all four classes appear under `--feature_root`
+afterwards. Step 1's aggregator binarizes `cancer ∪ suspicious` vs.
+`benign ∪ atypical`.
 
-The split is read as `os.path.join(slide_root, str(nth_fold), 'train' | 'test')`
-in `0-feature_extraction/dataset/dataset_urine.py`. Each slide has ~100
-patches (paper).
-
-**VPU training only uses `cancer` and `benign` slides.** The dataset
-wrapper hard-codes `valid_classes=['benign', 'cancer']` for the labeled /
-unlabeled VPU loaders, so any `atypical` or `suspicious` patches present
-under a fold's `train/` are ignored during VPU training. They are still
-embedded at feature-extraction time, so `<class>/<slide_id>` directories
-for all four classes do appear under `--feature_root` afterwards (Step 1's
-aggregator binarizes `cancer ∪ suspicious` vs. `benign ∪ atypical`).
-
-In VPU terms, **`benign` is the labeled positive class** (`p_loader`) and
-**`cancer` is the unlabeled class** (`x_loader`). Concretely, ImageFolder
-sorts class names alphabetically (`benign=0`, `cancer=1`) and
-`run.py`'s `--positive_label_list = [0]` selects `benign` as the positive
-side. Slide-level labels are inferred from the parent class folder.
+In VPU terms, `benign` is the labeled positive class (`p_loader`) and
+`cancer` is the unlabeled class (`x_loader`); this matches
+`run.py`'s `--positive_label_list = [0]` together with ImageFolder's
+alphabetical class order (`benign=0`, `cancer=1`).
 
 Note: `run.py`'s default `--slide_root` points to an old absolute path
 (`/bigdata/projects/beidi/...`) — **always override it**.
