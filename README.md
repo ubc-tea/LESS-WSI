@@ -154,17 +154,26 @@ Defined in `0-feature_extraction/run.py`:
   and fold). The two scales' feature dims correspond to Step 1's
   `--vpu_dim`, e.g. `384_768` for `crossvit_base_224`.
 
-### Suggested hyperparameter sweep
+### Hyperparameters used in the paper
 
-`run.py` exposes the VPU-specific hyperparameters used in the paper:
+Final settings reported in the paper for the urine cytology dataset (use these
+as defaults; the example commands above already match):
 
-- `--lr` ∈ `{1e-3, 1e-4, 1e-5}`
-- `--alpha` ∈ `{0.1, 0.3, 0.5}` (Mixup strength)
-- `--lam` ∈ `{0.01, 0.03, 0.1}` (regulariser weight)
-- `--num_labeled` ∈ `{1000, 3000, 5000}` (positive supervision budget)
-- `--th` ∈ `{0.3, 0.5, 0.7}` (decision threshold)
+| flag | paper value |
+|---|---|
+| `--lr` | `1e-4` |
+| `--batch-size` | `100` |
+| `--epochs` | `30` |
+| `--VPUep` | `10` |
+| `--alpha` (Mixup) | `0.3` |
+| `--lam` (VPU regulariser) | `0.03` |
+| `--num_labeled` | `3000` |
+| `--th` (decision threshold) | `0.5` |
 
-Tune on fold 0 / seed 0 first, then run the 5×5 sweep above.
+If you transfer to a new dataset, search around these values
+(e.g. `--lr ∈ {1e-3, 1e-4, 1e-5}`, `--alpha ∈ {0.1, 0.3, 0.5}`,
+`--lam ∈ {0.01, 0.03, 0.1}`, `--num_labeled ∈ {1000, 3000, 5000}`,
+`--th ∈ {0.3, 0.5, 0.7}`) on fold 0 / seed 0 first, then launch the 5×5 sweep.
 
 ## 1 - Cross-attention-based Aggregation
 
@@ -275,15 +284,30 @@ Defined in `1-WSI_aggregation/main.py` (`get_args_parser`):
 The full list (mixup, cutmix, color-jitter, repeated-aug, etc.) follows the
 DeiT/timm conventions and is rarely needed for cytology features.
 
-### Suggested hyperparameter sweep
+### Hyperparameters used in the paper
 
-`parameter_search.sh` shows the sweep used in the paper (5 seeds × 5 folds).
-For a fresh dataset, search:
+Final settings reported in the paper for CrossViT aggregation on the urine
+cytology dataset (the training command above uses exactly these):
 
-- `--lr` ∈ `{1e-4, 1e-5, 1e-6}`
-- `--weight-decay` ∈ `{0, 0.05, 0.1}`
-- `--drop` ∈ `{0.0, 0.1, 0.3}`
-- `--model` ∈ `{crossvit_small_224, crossvit_base_224}` (small first if data is limited)
+| flag | paper value |
+|---|---|
+| `--model` | `crossvit_base_224` |
+| `--vpu_dim` | `384_768` |
+| `--features` | `VPU` |
+| `--batch-size` | `1` (one slide / bag per step) |
+| `--epochs` | `100` |
+| `--opt` | `adam` |
+| `--lr` | `1e-6` |
+| `--warmup-lr` | `1e-6` |
+| `--warmup-epochs` | `1` |
+| `--sched` | `cosine` |
+| `--weight-decay` | `0.1` |
+| `--drop` | `0.1` |
+
+`parameter_search.sh` runs the paper's 5 seeds × 5 folds with these settings.
+For a fresh dataset, search around them
+(e.g. `--lr ∈ {1e-4, 1e-5, 1e-6}`, `--weight-decay ∈ {0, 0.05, 0.1}`,
+`--drop ∈ {0.0, 0.1, 0.3}`, `--model ∈ {crossvit_small_224, crossvit_base_224}`).
 
 ### Outputs
 
