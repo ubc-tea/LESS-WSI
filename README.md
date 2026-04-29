@@ -28,7 +28,7 @@ The following commands are examples of running the code for in-house urine cytol
 > (`subsample_and_layout.py`) is dataset-agnostic and can sit on top of any
 > of the three.
 
-Although the preprocessing of [CLAM](https://github.com/mahmoodlab/CLAM/tree/master#wsi-segmentation-and-patching) is widely used for histopathology WSIs, it is not suitable to be directly used for cytology WSIs, which will lose a lot of patches. Therefore, we built our own preprocessing pipeline to select informative patches. Since the cells are sparsely / randomly located in cytology WSIs, we randomly sample 100 patches per scale per slide.
+Although the preprocessing of [CLAM](https://github.com/mahmoodlab/CLAM/tree/master#wsi-segmentation-and-patching) It is hard to directly use the threshold of histopathology WSIs for cytology WSIs, which will lose a lot of patches. Therefore, we built our own preprocessing pipeline to select informative patches. Since the cells are sparsely / randomly located in cytology WSIs, we randomly sample 100 patches per scale per slide.
 
 The pipeline has two stages, both inside `0-feature_extraction/`:
 
