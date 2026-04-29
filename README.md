@@ -283,25 +283,6 @@ python run.py \
 > the VPU. Set `--get_feature 0` if you only want to train, `1` (default) to
 > also dump features.
 
-### 5-fold cross-validation across multiple seeds
-
-```bash
-for seed in 0 42 212330 2294892 990624; do
-  for fold in 0 1 2 3 4; do
-    for scale in 128 256; do
-      python run.py \
-        --dataset urine \
-        --scale $scale \
-        --slide_root PATH_TO_SAVED_SCALE${scale}_PATCHES \
-        --nth_fold $fold --seed $seed \
-        --epochs 30 --VPUep 10 \
-        --batch-size 100 --lr 1e-4 \
-        --feature_root ./saved_feature
-    done
-  done
-done
-```
-
 ### Key arguments
 
 Defined in `0-feature_extraction/run.py`:
@@ -312,7 +293,7 @@ Defined in `0-feature_extraction/run.py`:
 | `--scale` | `256` | patch crop size; pass `128` and `256` in two separate runs. |
 | `--slide_root` | (private path) | root of patches for the chosen scale. **Override.** |
 | `--nth_fold` | `0` | 0-indexed CV fold (5-fold split). |
-| `--seed` | `0` | RNG seed. Paper averages over `{0, 42, 212330, 2294892, 990624}`. |
+| `--seed` | `0` | RNG seed. |
 | `--epochs` | `0` | total VPU training epochs. **Set >= `--VPUep`** (e.g. 30) — leaving the default skips training. |
 | `--VPUep` | `10` | early-stop checkpoint index used for feature extraction. The training loop writes one `.pth` per epoch named `<epoch>.pth`, but each file actually contains the **best-validation-so-far** state dict (lowest `val_var` over all epochs ≤ that epoch). Setting `--VPUep N` therefore loads "the best VPU model seen during the first N+1 epochs". The paper uses `N=10`. |
 | `--batch-size` | `100` | patches per batch (matches 100 patches/slide). |
@@ -357,7 +338,7 @@ as defaults; the example commands above already match):
 If you transfer to a new dataset, search around these values
 (e.g. `--lr ∈ {1e-3, 1e-4, 1e-5}`, `--alpha ∈ {0.1, 0.3, 0.5}`,
 `--lam ∈ {0.01, 0.03, 0.1}`, `--num_labeled ∈ {1000, 3000, 5000}`,
-`--th ∈ {0.3, 0.5, 0.7}`) on fold 0 / seed 0 first, then launch the 5×5 sweep.
+`--th ∈ {0.3, 0.5, 0.7}`) on fold 0 / seed 0.
 
 ## 1 - Cross-attention-based Aggregation
 
@@ -423,20 +404,6 @@ python main.py \
   --eval
 ```
 
-5-fold cross-validation across multiple seeds (matches the paper's reporting):
-
-```bash
-for seed in 0 42 212330 2294892 990624; do
-  for fold in 0 1 2 3 4; do
-    python main.py \
-      --model crossvit_base_224 --features VPU --vpu_dim 384_768 \
-      --data_set urine --nth_fold $fold --seed $seed \
-      --batch-size 1 --epochs 100 --opt adam --lr 1e-6 \
-      --output_dir ./outputs/crossvit_base_seed${seed}_fold${fold}
-  done
-done
-```
-
 ### Key arguments
 
 Defined in `1-WSI_aggregation/main.py` (`get_args_parser`):
@@ -450,7 +417,7 @@ Defined in `1-WSI_aggregation/main.py` (`get_args_parser`):
 | `--batch-size` | `1` | one slide per step (each slide is a bag of 100 patches). |
 | `--epochs` | `1` (use ≥100) | total training epochs. |
 | `--opt` | `adam` | optimizer (created via `timm.optim.create_optimizer`). |
-| `--lr` | `1e-6` | base learning rate (paper uses `1e-6`–`1e-4`; tune via `parameter_search.sh`). |
+| `--lr` | `1e-6` | base learning rate (paper uses `1e-6`–`1e-4`). |
 | `--warmup-lr` / `--warmup-epochs` | `1e-6` / `1` | warmup schedule. |
 | `--sched` | `cosine` | LR schedule (`timm.scheduler.create_scheduler`). |
 | `--weight-decay` | `0.1` | AdamW-style weight decay. |
@@ -459,7 +426,7 @@ Defined in `1-WSI_aggregation/main.py` (`get_args_parser`):
 | `--data_set` | `urine` | one of `urine`, `CIFAR10`, `CIFAR100`, `IMNET`, `INAT`, `INAT19`. |
 | `--data-path` | — | root of saved Step-0 features. |
 | `--nth_fold` | `0` | 0-indexed CV fold (5-fold split is built in `datasets.py`). |
-| `--seed` | `42` | RNG seed. Paper reports mean over `{0, 42, 212330, 2294892, 990624}`. |
+| `--seed` | `42` | RNG seed. |
 | `--initial_checkpoint` | (path) | optional path to a CrossViT ImageNet checkpoint (`crossvit_*_224.pth`) loaded with `--pretrained`. |
 | `--resume` | `''` | resume / load checkpoint for `--eval`. |
 | `--output_dir` | `''` | where to dump checkpoints + logs (must be set to keep checkpoints). |
@@ -488,8 +455,7 @@ cytology dataset (the training command above uses exactly these):
 | `--weight-decay` | `0.1` |
 | `--drop` | `0.1` |
 
-`parameter_search.sh` runs the paper's 5 seeds × 5 folds with these settings.
-For a fresh dataset, search around them
+For a fresh dataset, search around these defaults
 (e.g. `--lr ∈ {1e-4, 1e-5, 1e-6}`, `--weight-decay ∈ {0, 0.05, 0.1}`,
 `--drop ∈ {0.0, 0.1, 0.3}`, `--model ∈ {crossvit_small_224, crossvit_base_224}`).
 
