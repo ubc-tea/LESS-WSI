@@ -30,19 +30,32 @@ The pipeline has two stages, both inside `0-feature_extraction/`:
 ```bash
 cd 0-feature_extraction
 
-# 256 px (default)
-python sliding_window.py --wsi_path /path/to/cohort
-# writes /path/to/cohort/save_patches/<slide_id>/<col>_<row>_m.png
+# 256 px (paper default)
+python sliding_window.py --wsi_path /path/to/cohort --tile_size 256
+# writes /path/to/cohort/save_patches_256/<slide_id>/<col>_<row>_m.png
 
-# 128 px (edit tile_size=128 in the script before this run, or fork it)
-python sliding_window.py --wsi_path /path/to/cohort
-# expected output: /path/to/cohort/save_patches_128/<slide_id>/...
+# 128 px (same screening rule, center crop scales to 64x64)
+python sliding_window.py --wsi_path /path/to/cohort --tile_size 128
+# writes /path/to/cohort/save_patches_128/<slide_id>/<col>_<row>_m.png
 ```
 
-`<wsi_path>/images/*.svs` is the input. Per-slide tiles end up in
-`<wsi_path>/save_patches/<slide_id>/`. The script skips a slide if its
-`save_patches/<slide_id>/` directory already exists, so re-runs after a
-crash are cheap.
+Per-scale outputs land in `<wsi_path>/save_patches_<tile_size>/<slide_id>/`,
+so the two scales never overwrite each other. The script skips a slide if
+its `save_patches_<tile_size>/<slide_id>/` already exists, so re-runs after
+a crash are cheap.
+
+The screening rule (paper):
+`mean < 236 ∧ std > 10 ∧ center_mean < 236`. The center crop is half the
+tile on each side (`tile_size // 2` square), so for 256-px tiles it's
+128×128 and for 128-px tiles it's 64×64 — same ratio across scales.
+Override the thresholds with `--mean_thr / --std_thr / --center_mean_thr`
+if you transfer to a different cohort.
+
+DeepZoom level: pass `--dz_level_offset` (default `-3`, i.e. third-highest
+level) to control which DeepZoom level is sampled. The same level is now
+used both for `level_tiles[]` (cols/rows) and `get_tile()` — the original
+hard-coded `level=15` only matched cohorts whose slides had exactly 18
+DeepZoom levels.
 
 ### Step P2 — Subsample + class layout + 5-fold split
 
@@ -69,7 +82,7 @@ Run once for both scales:
 
 ```bash
 python subsample_and_layout.py \
-  --patches-roots /path/to/cohort/save_patches /path/to/cohort/save_patches_128 \
+  --patches-roots /path/to/cohort/save_patches_256 /path/to/cohort/save_patches_128 \
   --out-roots    /path/to/cohort/scale256_5fold /path/to/cohort/scale128_5fold \
   --label-csv    /path/to/cohort/labels.csv \
   --n-patches 100 \
@@ -155,16 +168,9 @@ diff <(find <scale256_out>/0 -mindepth 4 -maxdepth 4 -type d -printf '%f\n' | so
 
 ### Known caveats in `sliding_window.py`
 
-- `tile_size=256` is hard-coded; for the 128-px pass you must edit the
-  script (or fork it). Filter thresholds and `overlap=0` should be
-  preserved.
-- `tiles.level_tiles[-3]` computes `(cols, rows)` while
-  `tiles.get_tile(15, ...)` uses a literal level 15. These are only
-  equivalent when `len(tiles.level_count) - 3 == 15`. Verify on a sample
-  slide of your cohort before trusting the output as the paper's
-  resolution.
-- The `discard_patches/` directory is created but never written to; it's
-  benign but dead code.
+- The `discard_patches_<tile_size>/` directory is created but never written
+  to; it's benign but dead — kept for compatibility with the original
+  layout.
 
 ## 0 - Patch Feature Extraction
 
